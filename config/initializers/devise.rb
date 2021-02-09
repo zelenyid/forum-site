@@ -16,6 +16,13 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '2c73b5b242bde9a057e52ea9a1b471fba103afb98c17468f2feff6c88fb4bcdd844dc75096adf393dc0f262b0ed136b10882de685d5cf704e8800471a3dafa55'
 
+  config.jwt do |jwt|
+    jwt.secret = '920094e0ceb3e1bba7e00eacd4e5f296a42773c250b93e0807e98249fd8c52fe883220a49b0d29498db41ee61dfca2394fb058a841ca8fb5add23c94cbe18450'
+    jwt.dispatch_requests = [
+      ['POST', %r{^/authentication_tokens/create$}]
+    ]
+  end
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -263,7 +270,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html]
+  # config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
