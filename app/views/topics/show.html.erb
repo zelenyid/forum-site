@@ -1,0 +1,10 @@
+<h1><%= @topic.title %></h1>
+
+<p><%= @topic.description %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_topic_path(@topic) %></li>
+  <li><%= link_to "Destroy", topic_path(@topic),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %></li>
+</ul>
