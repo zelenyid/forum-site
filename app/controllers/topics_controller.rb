@@ -8,6 +8,8 @@ class TopicsController < ApplicationController
   end
 
   def new
+    page_not_found unless current_user
+
     @topic = Topic.new
   end
 

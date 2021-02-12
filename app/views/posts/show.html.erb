@@ -1,0 +1,14 @@
+<h1><%= @post.title %></h1>
+
+<div>
+  <%= @post.body %>
+</div>
+
+<p>Author: <i><b><%= User.find_by(id: @post.user_id).name %></b></i></p>
+
+<ul>
+  <li><%= link_to 'Edit post', edit_topic_post_path(params[:topic_id], @post) %></li>
+  <li><%= link_to "Destroy", topic_post_path(params[:topic_id], params[:id]),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %></li>
+</ul>

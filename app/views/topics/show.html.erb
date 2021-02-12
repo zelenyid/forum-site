@@ -3,6 +3,15 @@
 <p><%= @topic.description %></p>
 
 <ul>
+  <% @topic.posts.each do |post| %>
+    <li><%= link_to post.title, topic_post_path(@topic, post) %></li>
+  <% end %>
+</ul>
+
+<p>Or you can:</p>
+
+<ul>
+  <li><%= link_to "New post", new_topic_post_path(@topic) %></li>
   <li><%= link_to "Edit", edit_topic_path(@topic) %></li>
   <li><%= link_to "Destroy", topic_path(@topic),
                   method: :delete,

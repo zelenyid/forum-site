@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  def page_not_found
+    render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+  end
   # respond_to :json
   # before_action :process_token
   # protect_from_forgery with: :exception
