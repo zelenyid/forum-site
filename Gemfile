@@ -61,3 +61,8 @@ gem 'fasterer'
 gem 'overcommit'
 gem 'rubocop'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+# Use jquery and bootstrap for frontend
+gem 'bootstrap_form'
+gem 'bootstrap-sass'
+gem 'jquery-rails'
