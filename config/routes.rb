@@ -1,15 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users, defaults: { format: :json }
+  devise_for :users, controllers: { registrations: :registrations }
   root to: 'home#index'
 
-  namespace :api do
-    namespace :v1 do
-      resources :users
-      devise_scope :user do
-        post '/authentication_tokens/create', to: "authentication_tokens#create"
-      end
-    end
+  devise_scope :user do
+    get 'login', to: 'devise/sessions#new'
+    get 'sign_up', to: 'devise/registrations#new'
   end
-
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
