@@ -1,17 +1,37 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-expand-md bg-dark navbar-dark p-2">
   <div class="container">
-    <div class="row">
+    <!-- Brand -->
+    <%= link_to 'Test Forum', root_path, class: 'navbar-brand' %>
 
-      <!-- Elements visible all the time -->
-      <div class="col-sm-7">
-        <%= render 'layouts/navigation/header' %>
-      </div><!-- col-sm-7 -->
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <!-- Elements collapses on smaller devices -->
-      <div class="col-sm-5">
-        <%= render 'layouts/navigation/collapsible_elements' %>
-      </div><!-- col-sm-5 -->
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    </div>
 
-    </div><!-- row -->
-  </div><!-- container -->
+    <ul class="nav navbar-nav ">
+      <% if user_signed_in? %>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <%= link_to "#" do %>
+              <span class="glyphicon glyphicon-user"></span> <%= current_user.name %>
+            <% end %>
+          </li>
+
+          <li>
+            <%= link_to destroy_user_session_path, method: :delete do %>
+              <span class="glyphicon glyphicon-log-out"></span> Logout
+            <% end %>
+          </li>
+        </ul>
+
+      <% else # user not signed it %>
+        <li ><%= link_to 'Login', login_path %></li>
+        <li ><%= link_to 'Sign up', sign_up_path %></li>
+      <% end # if user is signed it %>
+    </ul>
+  </div>
 </nav>

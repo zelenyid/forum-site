@@ -1,19 +1,21 @@
-<h1><%= @topic.title %></h1>
+<div class="container p-2" align="center">
+  <h1><%= @topic.title %></h1>
 
-<p><%= @topic.description %></p>
-
-<ul>
   <% @topic.posts.each do |post| %>
-    <li><%= link_to post.title, topic_post_path(@topic, post) %></li>
+    <div class="card bg-light m-5">
+      <div class="card-header">
+        <%= post.title %>
+      </div>
+
+      <div class="card-body">
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+          <%= link_to "Edit", edit_topic_post_path(@topic, post), class: "btn btn-warning" %>
+          <%= link_to 'Read more detail', topic_post_path(@topic, post), class: "btn btn-secondary" %>
+          <%= link_to "Destroy", topic_post_path(@topic, post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+        </div>
+      </div>
+    </div>
   <% end %>
-</ul>
 
-<p>Or you can:</p>
-
-<ul>
-  <li><%= link_to "New post", new_topic_post_path(@topic) %></li>
-  <li><%= link_to "Edit", edit_topic_path(@topic) %></li>
-  <li><%= link_to "Destroy", topic_path(@topic),
-                  method: :delete,
-                  data: { confirm: "Are you sure?" } %></li>
-</ul>
+  <%= link_to 'New Post', new_topic_post_path(@topic), class: "btn btn-success" %>
+</div>
