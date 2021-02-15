@@ -27,7 +27,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update(post_params.merge({ user_id: current_user.id }))
-      redirect_to @post
+      redirect_to topic_post_path(@post.topic_id, @post)
     else
       render :edit
     end
