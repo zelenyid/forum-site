@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   root to: 'topics#index'
 
   resources :topics do
-    resources :posts
+    resources :posts do
+      resources :comments
+    end
   end
 
   devise_scope :user do

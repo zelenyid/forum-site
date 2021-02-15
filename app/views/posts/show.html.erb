@@ -12,3 +12,11 @@
                   method: :delete,
                   data: { confirm: "Are you sure?" } %></li>
 </ul>
+
+<h1>Add a comment:</h1>
+
+<%= render "comments/form" %>
+
+<h2>Comments</h2>
+
+<%= render @post.comments.all %>
