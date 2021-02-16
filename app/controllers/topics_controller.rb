@@ -1,4 +1,6 @@
 class TopicsController < ApplicationController
+  load_and_authorize_resource
+
   def index
     @topics = Topic.all
   end
@@ -39,6 +41,11 @@ class TopicsController < ApplicationController
 
   def destroy
     @topic = Topic.find(params[:id])
+
+    @topic.posts.all.each do |post|
+      post.comments.each(&:destroy)
+      post.destroy
+    end
     @topic.destroy
 
     redirect_to root_path

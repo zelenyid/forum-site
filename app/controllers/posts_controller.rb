@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  load_and_authorize_resource
+
   def new
     page_not_found unless current_user
 
@@ -35,6 +37,8 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
+
+    @post.comments.all.each(&:destroy)
     @post.destroy
 
     redirect_to root_path

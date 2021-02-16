@@ -9,13 +9,19 @@
 
       <div class="card-body">
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-          <%= link_to "Edit", edit_topic_post_path(@topic, post), class: "btn btn-warning" %>
+          <% if can? :edit, post %>
+            <%= link_to "Edit", edit_topic_post_path(@topic, post), class: "btn btn-warning" %>
+          <% end %>
           <%= link_to 'Read more detail', topic_post_path(@topic, post), class: "btn btn-secondary" %>
-          <%= link_to "Destroy", topic_post_path(@topic, post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+          <% if can? :destroy, post %>
+            <%= link_to "Destroy", topic_post_path(@topic, post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+          <% end %>
         </div>
       </div>
     </div>
   <% end %>
 
-  <%= link_to 'New Post', new_topic_post_path(@topic), class: "btn btn-success" %>
+  <% if can? :create, Post %>
+    <%= link_to 'New Post', new_topic_post_path(@topic), class: "btn btn-success" %>
+  <% end %>
 </div>

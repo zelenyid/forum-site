@@ -31,9 +31,15 @@
                     <b><i>Comment:</i></b> <%= comment.body %>
                     <p>
                       <small>
-                        <%= link_to 'Edit', '#', class: "text-primary", 'data-toggle' => "modal", 'data-target' => "#updateCommentModel-#{comment.id}", type: "button" %>
+                        <% if can? :update, comment %>
+                          <%= link_to 'Edit', '#', class: "text-primary", 'data-toggle' => "modal", 'data-target' => "#updateCommentModel-#{comment.id}", type: "button" %>
+                        <% end %>
+                        <% if (can? :update, comment) && (can? :destroy, comment) %>
                         -
-                        <%= link_to "Delete", topic_post_comment_path(params[:topic_id], @post, comment), method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %>
+                        <% end %>
+                        <% if can? :destroy, comment %>
+                          <%= link_to "Delete", topic_post_comment_path(params[:topic_id], @post, comment), method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %>
+                        <% end %>
                       </small>
                     </p>
                   </div>
