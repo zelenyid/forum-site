@@ -14,11 +14,12 @@
 
   <div class="border-top my-3"></div>
   <div>
-    <div class="form_comment">
-      <h1>Add a comment:</h1>
-      <%= render "comments/form" %>
-    </div>
-
+    <% if can? :create, Comment %>
+      <div class="form_comment">
+        <h1>Add a comment:</h1>
+        <%= render "comments/form" %>
+      </div>
+    <% end %>
     <div class="row">
       <div class="col-md-8">
         <h1 align="center">Comments:</h1>

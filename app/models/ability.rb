@@ -4,13 +4,15 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new # guest user
+    user ||= nil # guest user
+
+    anyone_abilities
+
+    return unless user.present?
 
     admin_abilities if user.admin?
     moderator_abilities if user.moderator?
     authenticated_abilities(user.id) if user.user_role?
-
-    anyone_abilities
   end
 
   private
