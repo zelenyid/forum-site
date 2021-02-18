@@ -29,63 +29,6 @@ RSpec.describe User, type: :model do
     expect(current_user).to be_valid
   end
 
-  it 'password and password confirmation the same' do
-    current_user = User.new(
-      name: 'Barsik',
-      email: 'qwerty@qwerty.com',
-      password: '123456',
-      password_confirmation: ''
-    )
-
-    expect(current_user).to_not be_valid
-
-    current_user.password_confirmation = '123456'
-    expect(current_user).to be_valid
-  end
-
-  it 'password presence' do
-    current_user = User.new(
-      name: 'Barsik',
-      email: 'qwerty@qwerty.com',
-      password: '',
-      password_confirmation: '123456'
-    )
-
-    expect(current_user).to_not be_valid
-
-    current_user.password = '123456'
-    expect(current_user).to be_valid
-  end
-
-  it 'password confirmation presence' do
-    current_user = User.new(
-      name: 'Barsik',
-      email: 'qwerty@qwerty.com',
-      password: '123456',
-      password_confirmation: ''
-    )
-
-    expect(current_user).to_not be_valid
-
-    current_user.password_confirmation = '123456'
-    expect(current_user).to be_valid
-  end
-
-  it 'password has lenght at least 6 characters' do
-    current_user = User.new(
-      name: 'Barsik',
-      email: 'qwerty@qwerty.com',
-      password: '1234',
-      password_confirmation: '1234'
-    )
-
-    expect(current_user).to_not be_valid
-
-    current_user.password = '123456'
-    current_user.password_confirmation = '123456'
-    expect(current_user).to be_valid
-  end
-
   it 'email looks like email' do
     current_user = User.new(
       name: 'Barsik',
