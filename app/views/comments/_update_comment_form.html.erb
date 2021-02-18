@@ -1,0 +1,13 @@
+<%= form_with model: [ Topic.find(params[:topic_id]), @post, Comment.find(comment_id) ] do |form| %>
+  <div class="modal-body">
+    <p>
+      <%= form.label 'Your comment:' %><br>
+      <%= form.text_area :body %>
+    </p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <%= form.submit :class => 'btn btn-primary' %>
+  </div>
+<% end %>

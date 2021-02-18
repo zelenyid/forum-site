@@ -1,0 +1,16 @@
+/*
+ * This is a manifest file that'll be compiled into application.scss, which will include all the files
+ * listed below.
+ */
+// Bootstrap
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+// Variables
+@import "base/variables";
+
+// Default styles
+@import "base/default";
+
+// Partials - main css files
+@import "partials/*";
