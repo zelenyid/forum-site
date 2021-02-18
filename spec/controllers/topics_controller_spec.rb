@@ -1,24 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe TopicsController, type: :controller do
-  # This should return the minimal set of attributes required to create a valid
-  # Article. As you add validations to Article, be sure to adjust the attributes here as well.
-  # describe 'Guest user on topic page' do
-  #   let(:valid_attributes) do
-  #     { title: 'New test topic', description: 'This is a test description' }
-  #   end
-
-  #   let(:valid_session) { {} }
-
-  #   describe 'GET #index' do
-  #     it 'returns a success response' do
-  #       Topic.create! valid_attributes
-  #       get :index, params: {}, session: valid_session
-  #       expect(response).to be_successful
-  #     end
-  #   end
-  # end
-
   let(:admin_user) { create(:user, admin: true) }
   let(:moderator_user) { create(:user, moderator: true) }
   let(:user) { create(:user, user_role: true) }
@@ -39,8 +21,46 @@ RSpec.describe TopicsController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    let(:topic) { create(:topic) }
+
+    before(:each) do
+      topic.save
+    end
+
+    it 'admin role returns a success response' do
+      login admin_user
+
+      get :show, params: { id: topic.id }
+
+      expect(response).to be_successful
+    end
+
+    it 'moderator returns a success response' do
+      login moderator_user
+
+      get :show, params: { id: topic.id }
+
+      expect(response).to be_successful
+    end
+
+    it 'user role returns a success response' do
+      login user
+
+      get :show, params: { id: topic.id }
+
+      expect(response).to be_successful
+    end
+
+    it 'guest role returns a success response' do
+      get :show, params: { id: topic.id }
+
+      expect(response).to be_successful
+    end
+  end
+
   describe 'POST #create' do
-    it 'redirect to another page response' do
+    it 'admin role redirect to another page response' do
       login admin_user
 
       post :create, params: { topic: valid_topic_params }
@@ -49,6 +69,134 @@ RSpec.describe TopicsController, type: :controller do
       expect(Topic.first.description).to eq(valid_topic_params[:description])
 
       expect(response.code).to eq('302')
+    end
+
+    it 'moderator role page not found' do
+      login moderator_user
+
+      post :create, params: { topic: valid_topic_params }
+
+      expect(response.code).to eq('404')
+    end
+
+    it 'user role page not found' do
+      login user
+
+      post :create, params: { topic: valid_topic_params }
+
+      expect(response.code).to eq('404')
+    end
+
+    it 'guest role page not found' do
+      post :create, params: { topic: valid_topic_params }
+
+      expect(response.code).to eq('404')
+    end
+  end
+
+  describe 'PUT #update' do
+    let(:topic) { create(:topic) }
+
+    it 'admin role redirect to another page response' do
+      login admin_user
+      topic.save
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      put :update, params: { id: topic.id, topic: valid_topic_params }
+
+      expect(Topic.first.title).to eq(valid_topic_params[:title])
+      expect(Topic.first.description).to eq(valid_topic_params[:description])
+
+      expect(response.code).to eq('302')
+    end
+
+    it 'moderator role page not found' do
+      login moderator_user
+      topic.save
+
+      put :update, params: { id: topic.id, topic: valid_topic_params }
+
+      expect(response.code).to eq('404')
+    end
+
+    it 'user role page not found' do
+      login user
+      topic.save
+
+      put :update, params: { id: topic.id, topic: valid_topic_params }
+
+      expect(response.code).to eq('404')
+    end
+
+    it 'guest role page not found' do
+      topic.save
+
+      put :update, params: { id: topic.id, topic: valid_topic_params }
+
+      expect(response.code).to eq('404')
+    end
+  end
+
+  describe 'PUT #destroy' do
+    let(:topic) { create(:topic) }
+
+    it 'admin role redirect to another page response' do
+      login admin_user
+      topic.save
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      delete :destroy, params: { id: topic.id }
+
+      expect { Topic.find(topic.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(response.code).to eq('302')
+    end
+
+    it 'moderator role page not found' do
+      login moderator_user
+      topic.save
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      delete :destroy, params: { id: topic.id }
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      expect(response.code).to eq('404')
+    end
+
+    it 'user role page not found' do
+      login user
+      topic.save
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      delete :destroy, params: { id: topic.id }
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      expect(response.code).to eq('404')
+    end
+
+    it 'guest role page not found' do
+      topic.save
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      delete :destroy, params: { id: topic.id }
+
+      expect(Topic.first.title).to eq(topic.title)
+      expect(Topic.first.description).to eq(topic.description)
+
+      expect(response.code).to eq('404')
     end
   end
 end
