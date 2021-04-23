@@ -1,0 +1,75 @@
+<div class="container border border-dark">
+  <div class="header">
+    <h1 align="center"><%= @post.title %> | <%= Topic.find(@post.topic_id).title %></h1>
+    <span class="font-italic float-right">
+      Author: <%= link_to User.find(@post.user_id).name, '#' %>
+    </span>
+    <br>
+    <div class="border-top my-3"></div>
+  </div>
+
+  <div class='body p-5'>
+    <%= @post.body %>
+  </div>
+
+  <div class="border-top my-3"></div>
+  <div>
+    <% if can? :create, Comment %>
+      <div class="form_comment">
+        <h1>Add a comment:</h1>
+        <%= render "comments/form" %>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="col-md-8">
+        <h1 align="center">Comments:</h1>
+        <div class="comments-list">
+          <% if @post.comments.all.any? %>
+            <% @post.comments.all.each do |comment| %>
+              <div class="media mb-3">
+                  <div class="media-body">
+                    <h4 class="media-heading user_name"><%= link_to User.find(comment.user_id).name, '#' %></h4>
+                    <b><i>Comment:</i></b> <%= comment.body %>
+                    <p>
+                      <small>
+                        <% if can? :update, comment %>
+                          <%= link_to 'Edit', '#', class: "text-primary", 'data-toggle' => "modal", 'data-target' => "#updateCommentModel-#{comment.id}", type: "button" %>
+                        <% end %>
+                        <% if (can? :update, comment) && (can? :destroy, comment) %>
+                        -
+                        <% end %>
+                        <% if can? :destroy, comment %>
+                          <%= link_to "Delete", topic_post_comment_path(params[:topic_id], @post, comment), method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %>
+                        <% end %>
+                      </small>
+                    </p>
+                  </div>
+              </div>
+            <% end %>
+          <% else %>
+            No comments
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<% @post.comments.all.each do |comment| %>
+  <div class="modal fade" id="updateCommentModel-<%= comment.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-<%= comment.id %>" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Edit the comment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <%= render 'comments/update_comment_form', comment_id: comment.id %>
+
+      </div>
+    </div>
+  </div>
+<% end %>

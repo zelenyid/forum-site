@@ -1,0 +1,27 @@
+<div class="container p-2" align="center">
+  <h1><%= @topic.title %></h1>
+
+  <% @topic.posts.each do |post| %>
+    <div class="card bg-light m-5">
+      <div class="card-header">
+        <%= post.title %>
+      </div>
+
+      <div class="card-body">
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+          <% if can? :edit, post %>
+            <%= link_to "Edit", edit_topic_post_path(@topic, post), class: "btn btn-warning" %>
+          <% end %>
+          <%= link_to 'Read more detail', topic_post_path(@topic, post), class: "btn btn-secondary" %>
+          <% if can? :destroy, post %>
+            <%= link_to "Destroy", topic_post_path(@topic, post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if can? :create, Post %>
+    <%= link_to 'New Post', new_topic_post_path(@topic), class: "btn btn-success" %>
+  <% end %>
+</div>

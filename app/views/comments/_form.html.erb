@@ -1,0 +1,10 @@
+<%= form_with model: [ Topic.find(params[:topic_id]), @post, @post.comments.build ] do |form| %>
+  <p>
+    <%= form.label 'Your comment:' %><br>
+    <%= form.text_area :body %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
